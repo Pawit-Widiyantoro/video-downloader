@@ -6,8 +6,8 @@ const Navbar = () => {
             <div className="container mx-auto flex justify-between">
                 <h1 className="text-white font-bold">
                     <div className="flex space-x-4">
+                        <Link to="/">TikTok</Link>
                         <Link to="/youtube">Youtube</Link>
-                        <Link to="/tiktok">TikTok</Link>
                         <Link to="/facebook">Facebook</Link>
                         <Link to="/instagram">Instagram</Link>
                         <Link to="/twitter">Twitter</Link>
