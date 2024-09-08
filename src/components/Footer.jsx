@@ -9,7 +9,7 @@ const Footer = () => {
                 <p>
                     Created by{" "}
                     <a
-                        href="https://github.com/yourusername/your-repo"
+                        href="https://github.com/Pawit-Widiyantoro/video-downloader"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-600"
