@@ -43,16 +43,16 @@ const YoutubePage = () => {
     return (
         <div className='container mx-auto p-5'>
             <Header platform="Youtube" />
-            <div className='flex justify-center gap-2'>
+            <div className='flex flex-col md:flex-row justify-center gap-2'>
                 <input
                     type="text" 
-                    className='border shadow appearance-none rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+                    className='border shadow appearance-none rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
                     placeholder='Enter Youtube URL'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                 />
                 <button 
-                    className='bg-blue-600 hover:bg-blue-700 text-white font-sans px-3 py-2 rounded-md'
+                    className='bg-blue-600 hover:bg-blue-700 text-white font-sans px-3 py-2 rounded-md w-full md:w-auto'
                     onClick={handleDownload}
                     disabled={loading}
                 >
@@ -60,34 +60,34 @@ const YoutubePage = () => {
                 </button>
             </div>
 
-       {/* Show available formats */}
-{videoFormats.length > 0 && (
-    <div className="mt-5 flex flex-col items-center">
-        <h2 className="text-xl font-bold mb-3">Available Formats:</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl">
-            {videoFormats.map((format, index) => (
-                <div 
-                    key={index} 
-                    className="border p-4 rounded shadow-lg max-w-xs w-full bg-white text-center"
-                >
-                    <p className="text-md text-gray-700">
-                        <strong>Quality:</strong> {format.quality}
-                    </p>
-                    <p className="text-md text-gray-600">
-                        <strong>Size:</strong> {format.size}
-                    </p>
-                    <a
-                        href={format.url}
-                        className="mt-3 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded inline-block transition duration-300 ease-in-out"
-                        download
-                    >
-                        Download
-                    </a>
+            {/* Show available formats */}
+            {videoFormats.length > 0 && (
+                <div className="mt-5 flex flex-col items-center">
+                    <h2 className="text-xl font-bold mb-3">Available Formats:</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl w-1/2 md:2">
+                        {videoFormats.map((format, index) => (
+                            <div 
+                                key={index} 
+                                className="border p-4 rounded shadow-lg max-w-xs w-full bg-white text-center"
+                            >
+                                <p className="text-md text-gray-700">
+                                    <strong>Quality:</strong> {format.quality}
+                                </p>
+                                <p className="text-md text-gray-600">
+                                    <strong>Size:</strong> {format.size}
+                                </p>
+                                <a
+                                    href={format.url}
+                                    className="mt-3 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded inline-block transition duration-300 ease-in-out"
+                                    download
+                                >
+                                    Download
+                                </a>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ))}
-        </div>
-    </div>
-)}
+            )}
 
         </div>
     );

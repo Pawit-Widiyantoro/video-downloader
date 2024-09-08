@@ -45,16 +45,16 @@ const TwitterPage = () => {
     return (
         <div className="container mx-auto p-5">
             <Header platform="Twitter" />
-            <div className="flex justify-center gap-2">
+            <div className="flex flex-col md:flex-row justify-center gap-2">
                 <input 
                     type="text" 
-                    className='border shadow appearance-none rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlineer'
+                    className='border shadow appearance-none rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                     placeholder='Enter Twitter URL'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                 />
                 <button
-                    className='bg-blue-600 text-white font-sans px-3 py-2 rounded-md'
+                    className='bg-blue-600 hover:bg-blue-700 text-white font-sans px-3 py-2 rounded-md'
                     onClick={handleDownload}
                     disabled={loading}
                 >
@@ -86,7 +86,7 @@ const TwitterPage = () => {
                 <div className='flex justify-center mt-4'>
                     <a
                     href={selectedVideoUrl}
-                    className='bg-green-500 text-white p-2 rounded'
+                    className='bg-green-500 hover:bg-green-600 text-white p-2 rounded'
                     download
                     >
                     Download Video

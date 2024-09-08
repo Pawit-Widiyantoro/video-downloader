@@ -1,11 +1,12 @@
 import { useState } from "react";
+import Header from "../components/Header";
 
 const FacebookPage = () => {
     const [url, setUrl] = useState('');
     const [downloadLink, setDownloadLink] = useState('');
     const [loading, setLoading] = useState(false);
-    const [videoType, setVideoType] = useState(''); // Initially no selection
-    const [availableQualities, setAvailableQualities] = useState({ hd: false, sd: false });
+    const [videoType, setVideoType] = useState('');
+    const [availableQualities, setAvailableQualities] = useState({ hd: '', sd: '' });
 
     const handleDownload = () => {
         if (!url) {
@@ -21,9 +22,8 @@ const FacebookPage = () => {
             .then(data => {
                 setLoading(false);
 
-                // Check which video qualities are available
-                const hdAvailable = data.result?.hd ? true : false;
-                const sdAvailable = data.result?.sd ? true : false;
+                const hdAvailable = data.result?.hd ? data.result.hd : '';
+                const sdAvailable = data.result?.sd ? data.result.sd : '';
 
                 if (hdAvailable || sdAvailable) {
                     setAvailableQualities({ hd: hdAvailable, sd: sdAvailable });
@@ -31,8 +31,10 @@ const FacebookPage = () => {
                     // Automatically select a quality if only one is available
                     if (hdAvailable && !sdAvailable) {
                         setVideoType('hd');
+                        setDownloadLink(hdAvailable);
                     } else if (sdAvailable && !hdAvailable) {
                         setVideoType('sd');
+                        setDownloadLink(sdAvailable);
                     }
                 } else {
                     alert("No downloadable video found!");
@@ -46,19 +48,20 @@ const FacebookPage = () => {
     };
 
     const handleDownloadClick = () => {
-        const videoUrl = videoType === 'hd' ? availableQualities.hd : availableQualities.sd;
-        setDownloadLink(videoUrl);
+        if (videoType === 'hd') {
+            setDownloadLink(availableQualities.hd);
+        } else if (videoType === 'sd') {
+            setDownloadLink(availableQualities.sd);
+        }
     };
 
     return (
         <div className='container mx-auto p-5'>
-            <div className='flex justify-center my-3'>
-                <h1 className='font-bold text-3xl'>Facebook Video Downloader</h1>
-            </div>
-            <div className='flex justify-center gap-2'>
+            <Header platform="Facebook" />
+            <div className='flex flex-col md:flex-row justify-center gap-2'>
                 <input
                     type="text"
-                    className='border shadow appearance-none rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+                    className='border shadow appearance-none rounded w-full md:w-1/2 lg:w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
                     placeholder='Enter Facebook URL'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
@@ -81,7 +84,10 @@ const FacebookPage = () => {
                                 type="radio"
                                 value="hd"
                                 checked={videoType === 'hd'}
-                                onChange={() => setVideoType('hd')}
+                                onChange={() => {
+                                    setVideoType('hd');
+                                    setDownloadLink(availableQualities.hd);
+                                }}
                                 className="mr-2"
                             />
                             HD Video
@@ -93,7 +99,10 @@ const FacebookPage = () => {
                                 type="radio"
                                 value="sd"
                                 checked={videoType === 'sd'}
-                                onChange={() => setVideoType('sd')}
+                                onChange={() => {
+                                    setVideoType('sd');
+                                    setDownloadLink(availableQualities.sd);
+                                }}
                                 className="mr-2"
                             />
                             SD Video
@@ -103,9 +112,14 @@ const FacebookPage = () => {
             ) : null}
 
             {/* Display the download link once the video is selected */}
-            {videoType && (
+            {downloadLink && (
                 <div className='flex justify-center mt-4'>
-                    <a href={downloadLink} className='bg-green-500 hover:bg-green-700 text-white p-2 rounded' onClick={handleDownloadClick} download>
+                    <a 
+                        href={downloadLink} 
+                        className='bg-green-500 hover:bg-green-700 text-white p-2 rounded cursor-pointer'
+                        onClick={handleDownloadClick}
+                        download
+                    >
                         Download {videoType === 'hd' ? "HD" : "SD"} Video
                     </a>
                 </div>
