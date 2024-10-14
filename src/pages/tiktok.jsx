@@ -19,7 +19,8 @@ const TiktokPage = () => {
         }
 
         setLoading(true);
-        const apiURL = `https://api.nyxs.pw/dl/tiktok?url=${encodeURIComponent(url)}`;
+        // https://api.ryzendesu.vip/api/downloader/ttdl?url=https%3A%2F%2Fvt.tiktok.com%2FZS236CxD1%2F
+        const apiURL = `https://api.ryzendesu.vip/api/downloader/ttdl?url=${encodeURIComponent(url)}`;
 
         fetch(apiURL)
             .then(response => response.json())
@@ -28,9 +29,9 @@ const TiktokPage = () => {
 
                 // Check which video types are available
                 const available = {
-                    video: !!data.result?.video,
-                    videoHD: !!data.result?.videoHD,
-                    videoWatermark: !!data.result?.videoWatermark,
+                    video: !!data.data?.play,
+                    videoHD: !!data.data?.hdplay,
+                    videoWatermark: !!data.data?.wmplay,
                 };
 
                 setAvailableTypes(available);
@@ -38,11 +39,11 @@ const TiktokPage = () => {
                 // Set default link for selected video type
                 let video = null;
                 if (videoType === "videoHD" && available.videoHD) {
-                    video = data.result?.videoHD;
+                    video = data.data?.hdplay;
                 } else if (videoType === "videoWatermark" && available.videoWatermark) {
-                    video = data.result?.videoWatermark;
+                    video = data.data?.wmplay;
                 } else {
-                    video = data.result?.video; // fallback to standard video
+                    video = data.data?.play; // fallback to standard video
                 }
 
                 if (video) {
